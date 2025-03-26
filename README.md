@@ -1,1 +1,2 @@
 # centivo
+This implementation uses a typed controller-service pattern with structured error handling. Controllers validate inputs and format responses using a consistent { status, message, data? } schema, while services handle business logic and database operations. TypeScript ensures type safety for requests, responses, and Mongoose models, with explicit checks for valid MongoDB IDs and unified error responses.
