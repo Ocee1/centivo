@@ -1,6 +1,7 @@
 import userService from '../services/user.service';
 import { IUser, IUserInput } from '../models/user';
 import { Types } from 'mongoose';
+import { userSchema } from '../utils/validator';
 
 interface ApiResponse<T> {
   success: boolean;
@@ -11,7 +12,19 @@ interface ApiResponse<T> {
 export const createUser = async (req: any, res: any) => {
   try {
     const { name, email, age } = req.body;
+    const { error, value } = userSchema.validate(req.body, { 
+      abortEarly: false
+    });
     
+    if (error) {
+      return res.status(400).json({
+        status: 'fail',
+        message: error.details.map(err => ({
+          field: err.path[0],
+          message: err.message
+        }))
+      });
+    }
     const userData: IUserInput = {
       name,
       email,
